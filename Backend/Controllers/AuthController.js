@@ -47,4 +47,16 @@ const loginUser = (req, res) => {
   });
 };
 
-module.exports = { registerUser, loginUser };
+const getUserProfile = (req, res) => {
+  pool.query("SELECT id, name, email FROM users WHERE id = ?", [req.user.id], (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+
+      if (result.length === 0) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json(result[0]);  // Sending user details
+  });
+};
+
+module.exports = { registerUser, loginUser, getUserProfile };
