@@ -422,7 +422,229 @@ const descriptions = {
             }
         ]
     },
-
+    1: {
+        "title": "SELECT in SQL",
+        "content": "The SELECT statement in SQL is used to retrieve data from a database table. It allows users to specify which columns to fetch and apply conditions, sorting, and aggregations.",
+        "points": [
+            {
+                "heading": "Selecting All Columns",
+                "code": "SELECT * FROM employees;",
+                "description": "Retrieves all columns from the employees table."
+            },
+            {
+                "heading": "Selecting Specific Columns",
+                "code": "SELECT name, salary FROM employees;",
+                "description": "Fetches only the name and salary columns from the employees table."
+            },
+            {
+                "heading": "Using Expressions in SELECT",
+                "code": "SELECT name, salary * 1.1 AS increased_salary FROM employees;",
+                "description": "Performs calculations on column values and assigns an alias."
+            },
+            {
+                "heading": "Renaming Columns with Aliases",
+                "code": "SELECT name AS employee_name, department AS dept FROM employees;",
+                "description": "Uses aliases to rename column headers in the output."
+            },
+            {
+                "heading": "Using SELECT Without a Table",
+                "code": "SELECT 5 + 10;",
+                "description": "SQL can perform calculations without querying a table."
+            }
+        ]
+    },
+    
+    2: {
+        "title": "FROM in SQL",
+        "content": "The FROM clause in SQL specifies the table from which the data will be retrieved. It is an essential part of any SELECT query.",
+        "points": [
+            {
+                "heading": "Basic Usage of FROM",
+                "code": "SELECT name FROM employees;",
+                "description": "Retrieves the name column from the employees table."
+            },
+            {
+                "heading": "Selecting Multiple Columns from a Table",
+                "code": "SELECT name, department FROM employees;",
+                "description": "Fetches multiple columns from the employees table."
+            },
+            {
+                "heading": "Using FROM with Multiple Tables",
+                "code": "SELECT employees.name, departments.department_name FROM employees, departments WHERE employees.department_id = departments.id;",
+                "description": "Combines data from multiple tables (without using JOIN)."
+            },
+            {
+                "heading": "Using FROM with Aliases",
+                "code": "SELECT e.name FROM employees AS e;",
+                "description": "Uses an alias for the table to simplify queries."
+            },
+            {
+                "heading": "FROM with a Virtual Table (Subquery)",
+                "code": "SELECT name FROM (SELECT * FROM employees WHERE salary > 50000) AS high_paid;",
+                "description": "Uses a subquery as a temporary table."
+            }
+        ]
+    },
+    
+    3: {
+        "title": "WHERE in SQL",
+        "content": "The WHERE clause in SQL is used to filter records based on specific conditions, allowing users to retrieve only the data that meets certain criteria.",
+        "points": [
+            {
+                "heading": "Filtering Records with WHERE",
+                "code": "SELECT name FROM employees WHERE department = 'HR';",
+                "description": "Retrieves employees who belong to the HR department."
+            },
+            {
+                "heading": "Using Comparison Operators",
+                "code": "SELECT name FROM employees WHERE salary > 50000;",
+                "description": "Retrieves employees earning more than 50,000."
+            },
+            {
+                "heading": "Using Multiple Conditions (AND)",
+                "code": "SELECT name FROM employees WHERE department = 'IT' AND salary > 60000;",
+                "description": "Filters employees working in IT with a salary above 60,000."
+            },
+            {
+                "heading": "Using Multiple Conditions (OR)",
+                "code": "SELECT name FROM employees WHERE department = 'Finance' OR salary > 70000;",
+                "description": "Retrieves employees either from Finance or earning more than 70,000."
+            },
+            {
+                "heading": "Using WHERE with NULL Values",
+                "code": "SELECT name FROM employees WHERE manager_id IS NULL;",
+                "description": "Finds employees without a manager."
+            }
+        ]
+    },
+    
+    4: {
+        "title": "ORDER BY in SQL",
+        "content": "The ORDER BY clause in SQL is used to sort the result set in ascending or descending order based on one or more columns.",
+        "points": [
+            {
+                "heading": "Sorting in Ascending Order",
+                "code": "SELECT name FROM employees ORDER BY name ASC;",
+                "description": "By default, ORDER BY sorts results in ascending order."
+            },
+            {
+                "heading": "Sorting in Descending Order",
+                "code": "SELECT name FROM employees ORDER BY name DESC;",
+                "description": "Using DESC sorts results in descending order."
+            },
+            {
+                "heading": "Sorting by Multiple Columns",
+                "code": "SELECT name, department FROM employees ORDER BY department ASC, name DESC;",
+                "description": "This sorts first by department (ascending) and then by name (descending)."
+            },
+            {
+                "heading": "Sorting by Numeric Column",
+                "code": "SELECT name, salary FROM employees ORDER BY salary DESC;",
+                "description": "Sorting works on numeric columns as well."
+            },
+            {
+                "heading": "Sorting with NULL Values",
+                "code": "SELECT name, manager_id FROM employees ORDER BY manager_id ASC;",
+                "description": "NULL values appear first in ascending order and last in descending order."
+            }
+        ]
+    },
+    
+    12: {
+        "title": "COUNT() in SQL",
+        "content": "The COUNT() function in SQL is used to count the number of rows in a result set.",
+        "points": [
+            {
+                "heading": "Counting All Rows",
+                "code": "SELECT COUNT(*) FROM employees;",
+                "description": "Counts all rows, including those with NULL values."
+            },
+            {
+                "heading": "Counting Non-NULL Values in a Column",
+                "code": "SELECT COUNT(salary) FROM employees;",
+                "description": "Counts only non-null values in the salary column."
+            },
+            {
+                "heading": "Counting Unique Values with DISTINCT",
+                "code": "SELECT COUNT(DISTINCT department) FROM employees;",
+                "description": "Counts unique department values."
+            },
+            {
+                "heading": "Combining COUNT() with GROUP BY",
+                "code": "SELECT department, COUNT(*) FROM employees GROUP BY department;",
+                "description": "Counts employees in each department."
+            },
+            {
+                "heading": "Using COUNT() with WHERE",
+                "code": "SELECT COUNT(*) FROM employees WHERE salary > 50000;",
+                "description": "Counts employees earning more than 50,000."
+            }
+        ]
+    },
+    
+    18: {
+        "title": "INNER JOIN in SQL",
+        "content": "The INNER JOIN keyword in SQL is used to retrieve records with matching values in both tables.",
+        "points": [
+            {
+                "heading": "Basic INNER JOIN",
+                "code": "SELECT employees.name, departments.department_name FROM employees INNER JOIN departments ON employees.department_id = departments.id;",
+                "description": "Retrieves employees along with their department names."
+            },
+            {
+                "heading": "INNER JOIN with Multiple Conditions",
+                "code": "SELECT employees.name, departments.department_name FROM employees INNER JOIN departments ON employees.department_id = departments.id AND employees.salary > 50000;",
+                "description": "Joins tables where department matches and salary is greater than 50,000."
+            },
+            {
+                "heading": "INNER JOIN on More Than Two Tables",
+                "code": "SELECT employees.name, departments.department_name, projects.project_name FROM employees INNER JOIN departments ON employees.department_id = departments.id INNER JOIN projects ON employees.project_id = projects.id;",
+                "description": "Joins employees, departments, and projects tables."
+            },
+            {
+                "heading": "INNER JOIN with Alias",
+                "code": "SELECT e.name, d.department_name FROM employees e INNER JOIN departments d ON e.department_id = d.id;",
+                "description": "Uses table aliases for better readability."
+            },
+            {
+                "heading": "Filtering After an INNER JOIN",
+                "code": "SELECT employees.name, departments.department_name FROM employees INNER JOIN departments ON employees.department_id = departments.id WHERE departments.department_name = 'HR';",
+                "description": "Retrieves only employees from the HR department."
+            }
+        ]
+    },
+    
+    21: {
+        "title": "INSERT INTO in SQL",
+        "content": "The INSERT INTO statement in SQL is used to add new records into a table.",
+        "points": [
+            {
+                "heading": "Inserting a Single Row",
+                "code": "INSERT INTO employees (name, department, salary) VALUES ('John Doe', 'HR', 50000);",
+                "description": "Inserts a new employee into the employees table."
+            },
+            {
+                "heading": "Inserting Multiple Rows",
+                "code": "INSERT INTO employees (name, department, salary) VALUES ('Alice', 'IT', 60000), ('Bob', 'Finance', 55000);",
+                "description": "Inserts multiple records in a single query."
+            },
+            {
+                "heading": "Inserting Data from Another Table",
+                "code": "INSERT INTO high_salary_employees (name, salary) SELECT name, salary FROM employees WHERE salary > 70000;",
+                "description": "Copies data from one table into another based on a condition."
+            },
+            {
+                "heading": "INSERT with Default Values",
+                "code": "INSERT INTO employees (name) VALUES ('Charlie');",
+                "description": "Inserts a row with only the name, using default values for other columns."
+            },
+            {
+                "heading": "Inserting Data into Specific Columns",
+                "code": "INSERT INTO employees (name, department) VALUES ('David', 'Marketing');",
+                "description": "Specifies only a few columns to insert data into."
+            }
+        ]
+    },
 };
 
 const DescriptionPage = () => {
