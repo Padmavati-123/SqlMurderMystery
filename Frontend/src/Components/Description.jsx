@@ -1,5 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import React from "react";
+import { useState, useEffect } from "react";
+
 
 const descriptions = {
     16: {
@@ -453,7 +455,7 @@ const descriptions = {
             }
         ]
     },
-    
+
     2: {
         "title": "FROM in SQL",
         "content": "The FROM clause in SQL specifies the table from which the data will be retrieved. It is an essential part of any SELECT query.",
@@ -485,7 +487,7 @@ const descriptions = {
             }
         ]
     },
-    
+
     3: {
         "title": "WHERE in SQL",
         "content": "The WHERE clause in SQL is used to filter records based on specific conditions, allowing users to retrieve only the data that meets certain criteria.",
@@ -517,7 +519,7 @@ const descriptions = {
             }
         ]
     },
-    
+
     4: {
         "title": "ORDER BY in SQL",
         "content": "The ORDER BY clause in SQL is used to sort the result set in ascending or descending order based on one or more columns.",
@@ -549,7 +551,7 @@ const descriptions = {
             }
         ]
     },
-    
+
     12: {
         "title": "COUNT() in SQL",
         "content": "The COUNT() function in SQL is used to count the number of rows in a result set.",
@@ -581,7 +583,7 @@ const descriptions = {
             }
         ]
     },
-    
+
     18: {
         "title": "INNER JOIN in SQL",
         "content": "The INNER JOIN keyword in SQL is used to retrieve records with matching values in both tables.",
@@ -613,7 +615,7 @@ const descriptions = {
             }
         ]
     },
-    
+
     21: {
         "title": "INSERT INTO in SQL",
         "content": "The INSERT INTO statement in SQL is used to add new records into a table.",
@@ -647,41 +649,261 @@ const descriptions = {
     },
 };
 
+// const DescriptionPage = () => {
+//     const { topicId } = useParams();
+//     const navigate = useNavigate();
+
+//     const topic = descriptions[Number(topicId)];
+
+//     if (!topic) {
+//         return <div className="p-6 text-center text-red-500 text-xl font-bold">⚠️ Case Not Found!</div>;
+//     }
+
+//     return (
+//         <div className="min-h-screen flex justify-center items-center bg-gray-900 p-6">
+//             {/* Crime Report Container */}
+//             <div className="relative bg-gray-200 p-6 max-w-3xl w-full rounded-lg shadow-xl border border-gray-700 transform rotate-2">
+//                 {/* Blood Stain Effect */}
+//                 <div className="absolute top-2 right-4 text-red-600 text-4xl font-extrabold opacity-60">
+//                     🔴
+//                 </div>
+
+//                 {/* Report Header */}
+//                 <h1 className="text-3xl font-bold text-gray-900 text-center font-mono underline">
+//                     Crime Report: {topic.title}
+//                 </h1>
+
+//                 {/* Case Description */}
+//                 <p className="text-gray-700 my-4 leading-relaxed text-justify bg-gray-100 p-4 rounded-md border border-gray-400 shadow-md font-mono">
+//                     📜 {topic.content}
+//                 </p>
+
+//                 {/* Case Details */}
+//                 <ul className="list-none space-y-6">
+//                     {topic.points.map((point, index) => (
+//                         <li key={index} className="bg-white p-4 rounded-md shadow-lg border border-gray-500 relative">
+//                             <span className="absolute top-2 left-2 text-red-600 text-xl">📌</span>
+//                             <h3 className="font-bold text-lg text-gray-900 underline">{point.heading}</h3>
+//                             <div className="bg-gray-100 p-3 rounded-md mt-2 border border-gray-400 text-gray-800 shadow-inner">
+//                                 <pre className="whitespace-pre-wrap break-words text-sm font-mono">{point.code}</pre>
+//                             </div>
+//                             <p className="text-gray-600 mt-2 text-justify font-serif">{point.description}</p>
+//                         </li>
+//                     ))}
+//                 </ul>
+
+//                 {/* Take Test Button (Styled like an evidence tag) */}
+//                 <div className="flex justify-center mt-6">
+//                     <button
+//                         onClick={() => navigate(`/quiz/${topicId}`)}
+//                         className="relative px-6 py-2 bg-red-700 text-white font-semibold rounded-md transition duration-300 shadow-md hover:bg-red-800 transform hover:rotate-1"
+//                     >
+//                         🕵️‍♂️ Take Test
+//                         <span className="absolute -top-3 -right-3 text-xs bg-white text-red-700 px-2 py-1 rounded-md border border-gray-600 shadow-md">
+//                             Case ID: {topicId}
+//                         </span>
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default DescriptionPage;
+
 const DescriptionPage = () => {
     const { topicId } = useParams();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
+    const [animateItems, setAnimateItems] = useState(false);
+
+
 
     const topic = descriptions[Number(topicId)];
 
+    useEffect(() => {
+        // Simulate loading
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+            // Start point animations after page loads
+            setTimeout(() => {
+                setAnimateItems(true);
+            }, 300);
+        }, 800);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Add typewriter effect for headings
+    const TypewriterEffect = ({ text }) => {
+        const [displayText, setDisplayText] = useState('');
+
+        useEffect(() => {
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index <= text.length) {
+                    setDisplayText(text.substring(0, index));
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
+
+            return () => clearInterval(interval);
+        }, [text]);
+
+        return <span>{displayText}</span>;
+    };
+
     if (!topic) {
-        return <div className="p-6 text-center text-red-500">Topic not found!</div>;
+        return (
+            <div className="p-6 text-center text-red-500 text-xl font-bold animate-pulse">
+                ⚠️ Case Not Found!
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex justify-center items-center bg-gray-900">
+                <div className="text-center text-white">
+                    <div className="text-4xl mb-4 animate-spin inline-block">🔎</div>
+                    <div className="text-xl">Loading Case File #{topicId}...</div>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg border">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">{topic.title}</h1>
-            <p className="text-gray-700 mb-6 leading-relaxed text-justify">{topic.content}</p>
-
-            <ul className="list-disc list-outside text-gray-800 space-y-6">
-                {topic.points.map((point, index) => (
-                    <li key={index} className="ml-5">
-                        <span className="font-semibold text-lg">{point.heading}</span>
-                        <div className="overflow-auto bg-gray-100 text-gray-800 p-3 rounded-md mt-2 border border-gray-300">
-                            <pre className="whitespace-pre-wrap break-words text-sm">{point.code}</pre>
-                        </div>
-                        <p className="text-gray-600 mt-2 text-justify">{point.description}</p>
-                    </li>
-                ))}
-            </ul>
-
-            <div className="flex justify-center mt-6">
-                <button
-                    onClick={() => navigate(`/quiz/${topicId}`)}
-                    className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200 shadow-md"
+        <div className="min-h-screen flex justify-center items-center bg-gray-900 p-6 transition-all duration-500 ease-in-out">
+            
+            {/* Crime Report Container */}
+            <div
+                className="relative bg-gray-200 p-6 max-w-3xl w-full rounded-lg shadow-xl border border-gray-700 transform transition-all duration-700 ease-in-out hover:shadow-2xl"
+                style={{
+                    // transform: `rotate(${Math.random() * 3 - 1.5}deg)`,
+                    animation: "fadeIn 1s ease-in-out"
+                }}
+            >
+                {/* Blood Stain Effect */}
+                <div
+                    className="absolute -top-10 right-4 text-red-600 text-5xl font-extrabold opacity-0"
+                    style={{ animation: "dropBlood 1.5s ease-in-out forwards 0.5s" }}
                 >
-                    Take Test
-                </button>
+                    🔴
+                </div>
+
+                {/* Coffee Stain Effect */}
+                <div
+                    className="absolute top-40 left-4 text-amber-800 text-4xl opacity-0 transform rotate-45"
+                    style={{ animation: "fadeStain 2s ease-in-out forwards 1s" }}
+                >
+                    ☕
+                </div>
+
+                {/* Report Header with Typewriter Effect */}
+                <h1
+                    className="text-3xl font-bold text-gray-900 text-center font-mono underline relative"
+                    style={{ animation: "slideDown 0.8s ease-out" }}
+                >
+                    <span className="inline-block animate-pulse mr-2">🕵️‍♂️</span>
+                    <TypewriterEffect text={`Crime Report: ${topic.title}`} />
+                </h1>
+
+                {/* Case Description */}
+                <p
+                    className="text-gray-700 my-4 leading-relaxed text-justify bg-gray-100 p-4 rounded-md border border-gray-400 shadow-md font-mono"
+                    style={{ animation: "fadeIn 1s ease-in-out 0.5s both" }}
+                >
+                    <span className="inline-block transform hover:rotate-12 transition-transform duration-300">📜</span> {topic.content}
+                </p>
+
+                {/* Case Details */}
+                <ul className="list-none space-y-6">
+                    {topic.points.map((point, index) => (
+                        <li
+                            key={index}
+                            className={`bg-white p-4 rounded-md shadow-lg border border-gray-500 relative opacity-0 transform translate-y-4`}
+                            style={{
+                                animation: animateItems ? `slideUp 0.5s ease-out ${0.1 * (index + 1)}s forwards` : 'none',
+                                transitionDelay: `${index * 100}ms`
+                            }}
+                        >
+                            <span
+                                className="absolute top-2 left-2 text-red-600 text-xl transform hover:rotate-45 hover:scale-125 transition-all duration-300"
+                            >
+                                📌
+                            </span>
+                            <h3 className="font-bold text-lg text-gray-900 underline pl-6">{point.heading}</h3>
+                            <div
+                                className="bg-gray-100 p-3 rounded-md mt-2 border border-gray-400 text-gray-800 shadow-inner overflow-x-auto hover:shadow-md transition-shadow duration-300"
+                            >
+                                <pre className="whitespace-pre-wrap break-words text-sm font-mono">{point.code}</pre>
+                            </div>
+                            <p
+                                className="text-gray-600 mt-2 text-justify font-serif hover:text-gray-800 transition-colors duration-300"
+                            >
+                                {point.description}
+                            </p>
+                        </li>
+                    ))}
+                </ul>
+
+                {/* Take Test Button (Styled like an evidence tag) */}
+                <div className="flex justify-center mt-6">
+                    <button
+                        onClick={() => navigate(`/quiz/${topicId}`)}
+                        className="relative px-6 py-2 bg-red-700 text-white font-semibold rounded-md transition-all duration-300 shadow-md hover:bg-red-800 transform hover:scale-105 hover:rotate-1 animate-bounce"
+                        style={{ animation: "pulseButton 2s infinite" }}
+                    >
+                        🕵️‍♂️ Take Test
+                        <span className="absolute -top-3 -right-3 text-xs bg-white text-red-700 px-2 py-1 rounded-md border border-gray-600 shadow-md transform hover:rotate-6 transition-transform duration-300">
+                            Case ID: {topicId}
+                        </span>
+                    </button>
+                </div>
             </div>
+
+            {/* Add global style for custom animations */}
+            <style jsx global>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes slideDown {
+                    from { transform: translateY(-20px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+                
+                @keyframes slideUp {
+                    from { transform: translateY(20px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+                
+                @keyframes dropBlood {
+                    0% { transform: translateY(-50px); opacity: 0; }
+                    70% { transform: translateY(0); opacity: 0.8; }
+                    85% { transform: translateY(-5px); opacity: 0.7; }
+                    100% { transform: translateY(0); opacity: 0.6; }
+                }
+                
+                @keyframes fadeStain {
+                    from { opacity: 0; transform: rotate(45deg) scale(0.8); }
+                    to { opacity: 0.3; transform: rotate(45deg) scale(1); }
+                }
+                
+                @keyframes pulseButton {
+                    0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+                    70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+                }
+                
+                @keyframes rotate {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 };

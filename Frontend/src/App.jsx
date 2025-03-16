@@ -7,6 +7,11 @@ import TopicsPage from "./Components/Topics";
 import QuizPage from "./Components/Questions";
 import GroupByExplanation from "./GroupBy";
 import DescriptionPage from "./Components/Description";
+import FAQsPage from "./Components/Faqs";
+import AboutPage from "./Components/About";
+import LandingPage from "./Components/FrontPage";
+import ProfilePage from "./Components/Profile";
+
 function App() {
 
   return (
@@ -19,6 +24,10 @@ function App() {
         <Route path="/quiz/:topicId" element={<QuizPage />} />
         <Route path="/groupby" element={<GroupByExplanation />} />
         <Route path="/description/:topicId" element={<DescriptionPage />} />
+        <Route path="/faqs" element={<FAQsPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );
