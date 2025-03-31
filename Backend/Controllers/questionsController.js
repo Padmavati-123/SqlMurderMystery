@@ -1,7 +1,5 @@
 const pool = require('../Config/db');
 
-
-// Get questions for a specific topic
 exports.getQuestionsByTopic = (req, res) => {
   const topicId = req.params.topic_id;
 
@@ -12,8 +10,6 @@ exports.getQuestionsByTopic = (req, res) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-
-      // Ensure correct answer is sent to the frontend
       const formattedResults = results.map(q => ({
         id: q.id,
         question: q.question,
@@ -21,7 +17,7 @@ exports.getQuestionsByTopic = (req, res) => {
         option2: q.option2,
         option3: q.option3,
         option4: q.option4,
-        correctAnswer: q.correct_option, // Make sure correct_option is mapped correctly
+        correctAnswer: q.correct_option,
       }));
 
       res.json(formattedResults);
@@ -30,7 +26,6 @@ exports.getQuestionsByTopic = (req, res) => {
 };
 
 
-// Submit answers and calculate result
 exports.submitAnswers = (req, res) => {
   const userAnswers = req.body.answers;
 

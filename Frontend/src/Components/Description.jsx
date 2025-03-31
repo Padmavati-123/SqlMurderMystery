@@ -649,68 +649,6 @@ const descriptions = {
     },
 };
 
-// const DescriptionPage = () => {
-//     const { topicId } = useParams();
-//     const navigate = useNavigate();
-
-//     const topic = descriptions[Number(topicId)];
-
-//     if (!topic) {
-//         return <div className="p-6 text-center text-red-500 text-xl font-bold">⚠️ Case Not Found!</div>;
-//     }
-
-//     return (
-//         <div className="min-h-screen flex justify-center items-center bg-gray-900 p-6">
-//             {/* Crime Report Container */}
-//             <div className="relative bg-gray-200 p-6 max-w-3xl w-full rounded-lg shadow-xl border border-gray-700 transform rotate-2">
-//                 {/* Blood Stain Effect */}
-//                 <div className="absolute top-2 right-4 text-red-600 text-4xl font-extrabold opacity-60">
-//                     🔴
-//                 </div>
-
-//                 {/* Report Header */}
-//                 <h1 className="text-3xl font-bold text-gray-900 text-center font-mono underline">
-//                     Crime Report: {topic.title}
-//                 </h1>
-
-//                 {/* Case Description */}
-//                 <p className="text-gray-700 my-4 leading-relaxed text-justify bg-gray-100 p-4 rounded-md border border-gray-400 shadow-md font-mono">
-//                     📜 {topic.content}
-//                 </p>
-
-//                 {/* Case Details */}
-//                 <ul className="list-none space-y-6">
-//                     {topic.points.map((point, index) => (
-//                         <li key={index} className="bg-white p-4 rounded-md shadow-lg border border-gray-500 relative">
-//                             <span className="absolute top-2 left-2 text-red-600 text-xl">📌</span>
-//                             <h3 className="font-bold text-lg text-gray-900 underline">{point.heading}</h3>
-//                             <div className="bg-gray-100 p-3 rounded-md mt-2 border border-gray-400 text-gray-800 shadow-inner">
-//                                 <pre className="whitespace-pre-wrap break-words text-sm font-mono">{point.code}</pre>
-//                             </div>
-//                             <p className="text-gray-600 mt-2 text-justify font-serif">{point.description}</p>
-//                         </li>
-//                     ))}
-//                 </ul>
-
-//                 {/* Take Test Button (Styled like an evidence tag) */}
-//                 <div className="flex justify-center mt-6">
-//                     <button
-//                         onClick={() => navigate(`/quiz/${topicId}`)}
-//                         className="relative px-6 py-2 bg-red-700 text-white font-semibold rounded-md transition duration-300 shadow-md hover:bg-red-800 transform hover:rotate-1"
-//                     >
-//                         🕵️‍♂️ Take Test
-//                         <span className="absolute -top-3 -right-3 text-xs bg-white text-red-700 px-2 py-1 rounded-md border border-gray-600 shadow-md">
-//                             Case ID: {topicId}
-//                         </span>
-//                     </button>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default DescriptionPage;
-
 const DescriptionPage = () => {
     const { topicId } = useParams();
     const navigate = useNavigate();
@@ -722,10 +660,8 @@ const DescriptionPage = () => {
     const topic = descriptions[Number(topicId)];
 
     useEffect(() => {
-        // Simulate loading
         const timer = setTimeout(() => {
             setIsLoading(false);
-            // Start point animations after page loads
             setTimeout(() => {
                 setAnimateItems(true);
             }, 300);
@@ -734,7 +670,6 @@ const DescriptionPage = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    // Add typewriter effect for headings
     const TypewriterEffect = ({ text }) => {
         const [displayText, setDisplayText] = useState('');
 
@@ -776,16 +711,15 @@ const DescriptionPage = () => {
 
     return (
         <div className="min-h-screen flex justify-center items-center bg-gray-900 p-6 transition-all duration-500 ease-in-out">
-            
-            {/* Crime Report Container */}
+
             <div
                 className="relative bg-gray-200 p-6 max-w-3xl w-full rounded-lg shadow-xl border border-gray-700 transform transition-all duration-700 ease-in-out hover:shadow-2xl"
                 style={{
-                    // transform: `rotate(${Math.random() * 3 - 1.5}deg)`,
+
                     animation: "fadeIn 1s ease-in-out"
                 }}
             >
-                {/* Blood Stain Effect */}
+
                 <div
                     className="absolute -top-10 right-4 text-red-600 text-5xl font-extrabold opacity-0"
                     style={{ animation: "dropBlood 1.5s ease-in-out forwards 0.5s" }}
@@ -793,7 +727,7 @@ const DescriptionPage = () => {
                     🔴
                 </div>
 
-                {/* Coffee Stain Effect */}
+
                 <div
                     className="absolute top-40 left-4 text-amber-800 text-4xl opacity-0 transform rotate-45"
                     style={{ animation: "fadeStain 2s ease-in-out forwards 1s" }}
@@ -801,7 +735,7 @@ const DescriptionPage = () => {
                     ☕
                 </div>
 
-                {/* Report Header with Typewriter Effect */}
+
                 <h1
                     className="text-3xl font-bold text-gray-900 text-center font-mono underline relative"
                     style={{ animation: "slideDown 0.8s ease-out" }}
@@ -810,7 +744,6 @@ const DescriptionPage = () => {
                     <TypewriterEffect text={`Crime Report: ${topic.title}`} />
                 </h1>
 
-                {/* Case Description */}
                 <p
                     className="text-gray-700 my-4 leading-relaxed text-justify bg-gray-100 p-4 rounded-md border border-gray-400 shadow-md font-mono"
                     style={{ animation: "fadeIn 1s ease-in-out 0.5s both" }}
@@ -818,7 +751,6 @@ const DescriptionPage = () => {
                     <span className="inline-block transform hover:rotate-12 transition-transform duration-300">📜</span> {topic.content}
                 </p>
 
-                {/* Case Details */}
                 <ul className="list-none space-y-6">
                     {topic.points.map((point, index) => (
                         <li
@@ -849,7 +781,6 @@ const DescriptionPage = () => {
                     ))}
                 </ul>
 
-                {/* Take Test Button (Styled like an evidence tag) */}
                 <div className="flex justify-center mt-6">
                     <button
                         onClick={() => navigate(`/quiz/${topicId}`)}
@@ -864,7 +795,7 @@ const DescriptionPage = () => {
                 </div>
             </div>
 
-            {/* Add global style for custom animations */}
+
             <style jsx global>{`
                 @keyframes fadeIn {
                     from { opacity: 0; }

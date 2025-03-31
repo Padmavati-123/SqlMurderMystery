@@ -1,77 +1,3 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// const Login = () => {
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState("");
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     setError("");
-
-//     try {
-//       const response = await fetch("http://localhost:8080/auth/login", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ email, password }),
-//       });
-
-//       const data = await response.json();
-//       if (!response.ok) throw new Error(data.message);
-      
-//       localStorage.setItem("token", data.token);
-//       navigate("/home"); // Redirect after successful login
-//     } catch (err) {
-//       setError(err.message);
-//     }
-//   };
-
-//   return (
-//     <div 
-//       className="flex items-center justify-center h-screen bg-cover bg-center" 
-//       style={{ backgroundImage: "url('/login_bg.jpeg')" }}
-//     >
-//       <div className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg w-96 border border-red-600">
-//         <h2 className="text-3xl font-bold text-center mb-6 text-red-500">Crime Scene Login</h2>
-//         {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-//         <form onSubmit={handleLogin} className="space-y-4">
-//           <input 
-//             type="email" placeholder="Email" value={email} 
-//             onChange={(e) => setEmail(e.target.value)}
-//             className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-//             required
-//           />
-//           <input 
-//             type="password" placeholder="Password" value={password} 
-//             onChange={(e) => setPassword(e.target.value)}
-//             className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-//             required
-//           />
-//           <button 
-//             type="submit" 
-//             className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition duration-200"
-//           >
-//             Login
-//           </button>
-//         </form>
-//         <p className="mt-4 text-center text-sm text-gray-300">
-//           Don't have an account?{" "}
-//           <span 
-//             className="text-red-500 cursor-pointer hover:underline" 
-//             onClick={() => navigate("/signup")}
-//           >
-//             Sign Up
-//           </span>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -96,9 +22,10 @@ const Login = () => {
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
-      
+      console.log("Storing token:", data.token);
       localStorage.setItem("token", data.token);
-      navigate("/home"); // Redirect after successful login
+      console.log("Token stored:", localStorage.getItem("token"));
+      navigate("/home");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -111,13 +38,10 @@ const Login = () => {
       className="flex items-center justify-center min-h-screen bg-cover bg-center relative overflow-hidden"
       style={{ backgroundImage: "url('/login_bg.jpeg')" }}
     >
-      {/* Lighter overlay to allow background to be visible */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-black/50 z-0"></div>
-      
-      {/* Red accent line at top */}
+
       <div className="absolute top-0 left-0 right-0 h-1 bg-red-600 z-10"></div>
-      
-      {/* Animated particles for atmosphere */}
+
       <div className="absolute inset-0 z-0 opacity-30">
         {[...Array(15)].map((_, i) => (
           <div
@@ -136,7 +60,7 @@ const Login = () => {
 
       <div className="relative z-10 w-full max-w-md px-6">
         <div className="backdrop-blur-sm bg-black/60 p-8 rounded-lg shadow-2xl border-t border-red-700/50 border-l border-r border-b-2 border-b-red-600">
-          {/* Logo/Header */}
+
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 mb-3 relative">
               <div className="absolute inset-0 rounded-full border-2 border-red-600 animate-pulse"></div>
@@ -152,7 +76,7 @@ const Login = () => {
             <p className="text-gray-300 text-sm mt-1">Secure Authentication Portal</p>
           </div>
 
-          {/* Error message */}
+
           {error && (
             <div className="mb-4 p-3 bg-red-900/30 border-l-4 border-red-600 rounded">
               <p className="text-red-400 text-sm flex items-center">
@@ -164,7 +88,6 @@ const Login = () => {
             </div>
           )}
 
-          {/* Login form */}
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-300 flex items-center">
@@ -265,8 +188,7 @@ const Login = () => {
           <p>© {new Date().getFullYear()} Crime Scene Investigation. All rights reserved.</p>
         </div>
       </div>
-
-      {/* Add CSS for animations */}
+      
       <style jsx>{`
         @keyframes float {
           0% { transform: translateY(0px); opacity: 0; }

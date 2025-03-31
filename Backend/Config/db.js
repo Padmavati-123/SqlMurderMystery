@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT,
   connectionLimit: 10,
   ssl: {
-    rejectUnauthorized: false,  // Ignore SSL certificate validation
+    rejectUnauthorized: false, 
   }
 });
 

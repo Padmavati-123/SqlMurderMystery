@@ -45,8 +45,6 @@ const AboutPage = () => {
         localStorage.removeItem("token");
         navigate("/login");
     };
-
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showDropdown && !event.target.closest('.dropdown-container')) {
@@ -155,7 +153,6 @@ const AboutPage = () => {
                 </div>
             </nav>
 
-            {/* About Us Content */}
             <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
                 <motion.h1
                     className="text-5xl font-extrabold text-red-500 mb-6"
@@ -182,7 +179,7 @@ const AboutPage = () => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 2 }}
                 >
-                    {/* Feature 1 */}
+
                     <motion.div
                         className="bg-gray-800 bg-opacity-90 p-6 rounded-lg shadow-lg border border-red-600 text-center hover:scale-105 transition"
                         whileHover={{ scale: 1.1 }}
@@ -192,7 +189,6 @@ const AboutPage = () => {
                         <p className="text-gray-400 mt-2">Use SQL queries to uncover evidence hidden in databases.</p>
                     </motion.div>
 
-                    {/* Feature 2 */}
                     <motion.div
                         className="bg-gray-800 bg-opacity-90 p-6 rounded-lg shadow-lg border border-red-600 text-center hover:scale-105 transition"
                         whileHover={{ scale: 1.1 }}
@@ -202,7 +198,6 @@ const AboutPage = () => {
                         <p className="text-gray-400 mt-2">Follow the clues and connect the dots to find the murderer.</p>
                     </motion.div>
 
-                    {/* Feature 3 */}
                     <motion.div
                         className="bg-gray-800 bg-opacity-90 p-6 rounded-lg shadow-lg border border-red-600 text-center hover:scale-105 transition"
                         whileHover={{ scale: 1.1 }}

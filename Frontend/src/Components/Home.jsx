@@ -47,7 +47,6 @@ const Home = () => {
         navigate("/login");
     };
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showDropdown && !event.target.closest('.dropdown-container')) {
@@ -206,7 +205,6 @@ const Home = () => {
                             className="bg-black bg-opacity-60 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg border border-red-600 transform hover:scale-105 transition duration-500 cursor-pointer group relative overflow-hidden"
                             onClick={() => navigate("/topics")}
                         >
-                            {/* Background glow effect */}
                             <div className="absolute -inset-1 bg-blue-500 opacity-0 group-hover:opacity-20 rounded-lg blur transition duration-500 group-hover:duration-200"></div>
 
                             <div className="relative z-10">
@@ -220,7 +218,6 @@ const Home = () => {
                                 <p className="mt-2">Master the database query language used by detectives to solve digital mysteries.</p>
 
                                 <div className="mt-4 flex justify-between items-center">
-                                    {/* <span className="text-sm text-gray-400">12 lessons</span> */}
                                     <button className="flex items-center gap-2 text-blue-400 font-semibold group-hover:translate-x-2 transition-all duration-300">
                                         Start Learning <FaArrowRight />
                                     </button>
@@ -232,7 +229,6 @@ const Home = () => {
                             className="bg-black bg-opacity-60 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg border border-red-600 transform hover:scale-105 transition duration-500 cursor-pointer group relative overflow-hidden"
                             onClick={() => navigate("/sql-game")}
                         >
-                            {/* Background glow effect */}
                             <div className="absolute -inset-1 bg-green-500 opacity-0 group-hover:opacity-20 rounded-lg blur transition duration-500 group-hover:duration-200"></div>
 
                             <div className="relative z-10">
@@ -254,11 +250,9 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Call to action */}
                     <div className="mt-12 animate-fadeInUp animation-delay-500">
                         <button
-                            onClick={() => navigate("/new-case")}
+                            onClick={() => navigate("/level1")}
                             className="bg-gradient-to-r from-red-700 to-yellow-600 hover:from-red-600 hover:to-yellow-500 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-3 shadow-lg"
                         >
                             <FaSearch className="text-xl" />

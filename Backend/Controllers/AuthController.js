@@ -55,15 +55,15 @@ const getUserProfile = (req, res) => {
           return res.status(404).json({ message: "User not found" });
       }
 
-      res.json(result[0]);  // Sending user details
+      res.json(result[0]);
   });
 };
 
 const updateProfile = (req, res) => {
-  const userId = req.user.id; // From auth middleware
+  const userId = req.user.id;
   const { name, email, currentPassword, newPassword } = req.body;
   
-  // Start a transaction to ensure data consistency
+
   pool.getConnection((err, connection) => {
     if (err) {
       return res.status(500).json({ error: "Database connection error" });
@@ -74,8 +74,7 @@ const updateProfile = (req, res) => {
         connection.release();
         return res.status(500).json({ error: "Transaction error" });
       }
-      
-      // First, get the current user data to verify password if needed
+
       connection.query(
         "SELECT * FROM users WHERE id = ?",
         [userId],
@@ -95,14 +94,12 @@ const updateProfile = (req, res) => {
           }
           
           const user = results[0];
-          
-          // Build the update query conditionally
+
           let updateQuery = "UPDATE users SET name = ?, email = ?";
           let queryParams = [name, email];
-          
-          // If password change is requested
+
           if (currentPassword && newPassword) {
-            // Verify current password
+
             const isPasswordValid = bcrypt.compareSync(currentPassword, user.password);
             
             if (!isPasswordValid) {
@@ -111,20 +108,16 @@ const updateProfile = (req, res) => {
                 res.status(400).json({ message: "Current password is incorrect" });
               });
             }
-            
-            // Hash the new password
+
             const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
-            
-            // Add password to update query
+
             updateQuery += ", password = ?";
             queryParams.push(hashedNewPassword);
           }
-          
-          // Complete the query with WHERE clause
+
           updateQuery += " WHERE id = ?";
           queryParams.push(userId);
-          
-          // Execute the update
+
           connection.query(updateQuery, queryParams, (err, result) => {
             if (err) {
               return connection.rollback(() => {
@@ -140,7 +133,7 @@ const updateProfile = (req, res) => {
               });
             }
             
-            // Get updated user data to return
+
             connection.query(
               "SELECT id, name, email FROM users WHERE id = ?",
               [userId],
@@ -151,8 +144,7 @@ const updateProfile = (req, res) => {
                     res.status(500).json({ error: err.message });
                   });
                 }
-                
-                // Commit the transaction
+
                 connection.commit((err) => {
                   if (err) {
                     return connection.rollback(() => {
@@ -163,7 +155,6 @@ const updateProfile = (req, res) => {
                   
                   connection.release();
                   
-                  // Return success with updated user data
                   res.status(200).json({
                     message: "Profile updated successfully",
                     user: updatedResults[0]

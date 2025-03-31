@@ -33,9 +33,8 @@ const LandingPage = () => {
         </motion.button>
       </motion.nav>
 
-      {/* Hero Section with improved animations */}
       <div className="flex flex-col justify-center items-center flex-grow text-center p-8 relative">
-        {/* Subtle background glow */}
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.2 }}
@@ -63,7 +62,6 @@ const LandingPage = () => {
           the dots and solve even the most complex cases.
         </motion.p>
 
-        {/* Call to Action Button with enhanced animations */}
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -85,7 +83,6 @@ const LandingPage = () => {
         </motion.button>
       </div>
 
-      {/* Animated Footer */}
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -46,7 +46,6 @@ const FAQsPage = () => {
         navigate("/login");
     };
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showDropdown && !event.target.closest('.dropdown-container')) {
@@ -88,7 +87,7 @@ const FAQsPage = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
         }}>
-            {/* Navbar */}
+
             <nav className="bg-black bg-opacity-50 backdrop-blur-sm shadow-lg p-4 flex justify-between items-center px-6 border-b border-red-700 sticky top-0 z-50">
                 <div className="flex items-center">
                     <span className="text-3xl mr-2 animate-pulse">🕵️</span>
@@ -112,7 +111,7 @@ const FAQsPage = () => {
                         onClick={() => navigate("/home")}
                         className="nav-link relative overflow-hidden hover:text-yellow-400 transition duration-300 font-semibold flex items-center gap-2"
                     >
-                        {/* <FaQuestionCircle className="text-red-400" /> */}
+
                         <span>Home</span>
                         <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 hover-line"></span>
                     </button>
@@ -178,7 +177,6 @@ const FAQsPage = () => {
                 </div>
             </nav>
 
-            {/* FAQs Section */}
             <div className="flex flex-col items-center justify-center py-16">
                 <h1 className="text-4xl font-extrabold mb-10 text-red-500 flex items-center gap-2">
                     <FaQuestionCircle /> Frequently Asked Questions
@@ -201,7 +199,6 @@ const FAQsPage = () => {
                 </div>
             </div>
 
-            {/* Footer */}
             <footer className="bg-black bg-opacity-60 backdrop-blur-md p-4 text-center mt-10 border-t border-red-700">
                 <p className="text-gray-500">© 2025 SQL Murder Mystery | All Rights Reserved</p>
             </footer>
