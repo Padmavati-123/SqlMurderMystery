@@ -273,91 +273,141 @@ const checkAnswer = (req, res) => {
 
             console.log('Parsed person IDs:', personIds);
 
+            // First check if the user has already completed this case
             pool.query(
-                `SELECT COUNT(*) as count, COUNT(DISTINCT person_id) as uniqueCount 
-                 FROM check_table 
-                 WHERE case_id = ? AND person_id IN (${personIds.map(() => '?').join(',')})`,
-                [numericCaseId, ...personIds], (error, answerResults) => {
-
-                    if (error) {
-                        console.error('Error checking answer:', error);
-                        return res.status(500).json({ success: false, message: 'Server error while checking answer' });
+                `SELECT completed FROM user_progress WHERE user_id = ? AND case_id = ? AND level_id = 1 LIMIT 1`,
+                [userId, numericCaseId],
+                (progressError, progressResults) => {
+                    if (progressError) {
+                        console.error('Error checking previous completion:', progressError);
+                        return res.status(500).json({ success: false, message: 'Server error while checking previous completion' });
                     }
 
-                    pool.query(
-                        `SELECT COUNT(*) as totalPersons FROM check_table WHERE case_id = ?`,
-                        [numericCaseId],
-                        (error2, totalResults) => {
+                    const alreadyCompleted = progressResults.length > 0 && progressResults[0].completed;
 
-                            if (error2) {
-                                console.error('Error checking total persons:', error2);
+                    pool.query(
+                        `SELECT COUNT(*) as count, COUNT(DISTINCT person_id) as uniqueCount 
+                         FROM check_table 
+                         WHERE case_id = ? AND person_id IN (${personIds.map(() => '?').join(',')})`,
+                        [numericCaseId, ...personIds], (error, answerResults) => {
+
+                            if (error) {
+                                console.error('Error checking answer:', error);
                                 return res.status(500).json({ success: false, message: 'Server error while checking answer' });
                             }
 
-                            const totalPersons = totalResults[0].totalPersons;
-                            const foundPersons = answerResults[0].count;
-                            const uniqueFoundPersons = answerResults[0].uniqueCount;
+                            pool.query(
+                                `SELECT COUNT(*) as totalPersons FROM check_table WHERE case_id = ?`,
+                                [numericCaseId],
+                                (error2, totalResults) => {
 
-                            if (uniqueFoundPersons === personIds.length && foundPersons === totalPersons) {
-
-                                pool.query(`
-                                    INSERT INTO user_progress (user_id, level_id, case_id, completed, score, completed_at, attempts)
-                                    VALUES (?, 1, ?, TRUE, 10, NOW(), 1)
-                                    ON DUPLICATE KEY UPDATE 
-                                        completed = TRUE,
-                                        score = GREATEST(score, 10),
-                                        completed_at = IF(completed = FALSE, NOW(), completed_at),
-                                        attempts = attempts + 1
-                                `, [userId, numericCaseId], (progressError, progressResult) => {
-                                    if (progressError) {
-                                        console.error('Error updating user progress:', progressError);
-                                    } else {
-                                        console.log('User progress updated successfully:', progressResult);
+                                    if (error2) {
+                                        console.error('Error checking total persons:', error2);
+                                        return res.status(500).json({ success: false, message: 'Server error while checking answer' });
                                     }
-                                    
-                                
-                                    updateUserScoreAndStreak(userId, 10, (scoreError, scoreResult) => {
-                                        if (scoreError) {
-                                            console.error('Error updating user score:', scoreError);
-                                        } else if (scoreResult) {
-                                            console.log('User score updated successfully:', scoreResult);
+
+                                    const totalPersons = totalResults[0].totalPersons;
+                                    const foundPersons = answerResults[0].count;
+                                    const uniqueFoundPersons = answerResults[0].uniqueCount;
+
+                                    if (uniqueFoundPersons === personIds.length && foundPersons === totalPersons) {
+                                        // Correct answer
+                                        if (alreadyCompleted) {
+                                            // User already completed this case - don't award new points
+                                            pool.query(`
+                                                UPDATE user_progress 
+                                                SET attempts = attempts + 1
+                                                WHERE user_id = ? AND case_id = ? AND level_id = 1
+                                            `, [userId, numericCaseId], (updateError) => {
+                                                if (updateError) {
+                                                    console.error('Error updating attempts:', updateError);
+                                                }
+                                                
+                                                return res.status(200).json({
+                                                    success: true,
+                                                    correct: true,
+                                                    case_id: numericCaseId,
+                                                    message: 'Correct answer! You have already solved this case previously.',
+                                                    nextLevel: '/game/level2'
+                                                });
+                                            });
+                                        } else {
+                                            // First time correct - award points and update progress
+                                            pool.query(`
+                                                INSERT INTO user_progress (user_id, level_id, case_id, completed, score, completed_at, attempts)
+                                                VALUES (?, 1, ?, TRUE, 10, NOW(), 1)
+                                                ON DUPLICATE KEY UPDATE 
+                                                    completed = TRUE,
+                                                    score = 10,
+                                                    completed_at = IF(completed = FALSE, NOW(), completed_at),
+                                                    attempts = attempts + 1
+                                            `, [userId, numericCaseId], (progressError, progressResult) => {
+                                                if (progressError) {
+                                                    console.error('Error updating user progress:', progressError);
+                                                    return res.status(500).json({ success: false, message: 'Server error while updating progress' });
+                                                }
+                                                
+                                                console.log('User progress updated successfully:', progressResult);
+                                                
+                                                updateUserScoreAndStreak(userId, 10, (scoreError, scoreResult) => {
+                                                    if (scoreError) {
+                                                        console.error('Error updating user score:', scoreError);
+                                                        return res.status(500).json({ success: false, message: 'Server error while updating score' });
+                                                    }
+                                                    
+                                                    console.log('User score updated successfully:', scoreResult);
+                                                    
+                                                    return res.status(200).json({
+                                                        success: true,
+                                                        correct: true,
+                                                        case_id: numericCaseId,
+                                                        message: 'Correct answer! You found all persons involved. You earned 10 points.',
+                                                        nextLevel: '/game/level2'
+                                                    });
+                                                });
+                                            });
                                         }
-                                        
-                                        return res.status(200).json({
-                                            success: true,
-                                            correct: true,
-                                            case_id: numericCaseId,
-                                            message: 'Correct answer! You found all persons involved. You earned 10 points.',
-                                            nextLevel: '/game/level2'
+                                    } else if (foundPersons > 0) {
+                                        // Partially correct answer
+                                        pool.query(`
+                                            INSERT INTO user_progress (user_id, level_id, case_id, attempts)
+                                            VALUES (?, 1, ?, 1)
+                                            ON DUPLICATE KEY UPDATE 
+                                                attempts = attempts + 1
+                                        `, [userId, numericCaseId], (attemptsError) => {
+                                            if (attemptsError) {
+                                                console.error('Error updating attempts:', attemptsError);
+                                            }
+                                            
+                                            return res.status(200).json({
+                                                success: true,
+                                                correct: false,
+                                                case_id: numericCaseId,
+                                                message: `You found ${foundPersons} out of ${totalPersons} persons involved. Keep trying!`
+                                            });
                                         });
-                                    });
-                                });
-                            } else if (foundPersons > 0) {
-                                return res.status(200).json({
-                                    success: true,
-                                    correct: false,
-                                    case_id: numericCaseId,
-                                    message: `You found ${foundPersons} out of ${totalPersons} persons involved. Keep trying!`
-                                });
-                            } else {
-                                pool.query(`
-                                    INSERT INTO user_progress (user_id, level_id, case_id, attempts)
-                                    VALUES (?, 1, ?, 1)
-                                    ON DUPLICATE KEY UPDATE 
-                                        attempts = attempts + 1
-                                `, [userId, numericCaseId], (attemptsError) => {
-                                    if (attemptsError) {
-                                        console.error('Error updating attempts:', attemptsError);
+                                    } else {
+                                        // Incorrect answer
+                                        pool.query(`
+                                            INSERT INTO user_progress (user_id, level_id, case_id, attempts)
+                                            VALUES (?, 1, ?, 1)
+                                            ON DUPLICATE KEY UPDATE 
+                                                attempts = attempts + 1
+                                        `, [userId, numericCaseId], (attemptsError) => {
+                                            if (attemptsError) {
+                                                console.error('Error updating attempts:', attemptsError);
+                                            }
+                                            
+                                            return res.status(200).json({
+                                                success: true,
+                                                correct: false,
+                                                case_id: numericCaseId,
+                                                message: 'Incorrect answer. Try again!'
+                                            });
+                                        });
                                     }
-                                    
-                                    return res.status(200).json({
-                                        success: true,
-                                        correct: false,
-                                        case_id: numericCaseId,
-                                        message: 'Incorrect answer. Try again!'
-                                    });
-                                });
-                            }
+                                }
+                            );
                         }
                     );
                 }

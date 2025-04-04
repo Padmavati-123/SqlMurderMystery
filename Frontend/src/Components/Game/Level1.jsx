@@ -142,7 +142,7 @@ const Level1Game = () => {
 
       if (err.response?.status === 401) {
         setAuthError('Your session has expired. Please login again.');
-        localStorage.removeItem("token"); // Clear invalid token
+        localStorage.removeItem("token"); 
       } else {
         setError(
           err.response?.data?.message ||
@@ -276,17 +276,13 @@ const Level1Game = () => {
             fetchCompletedCases(token);
           }, 1000); 
 
-          if (response.data.nextLevel) {
-            setTimeout(() => {
-              navigate(response.data.nextLevel);
-            }, 2000);
-          } else {
-            setTimeout(() => {
-              handleBackToList();
-            }, 2000);
-          }
+          setTimeout(() => {
+            handleBackToList();
+          }, 3000);
         }
       }
+      
+      setLoading(false);
     } catch (err) {
       console.error('Error checking answer:', err);
 
