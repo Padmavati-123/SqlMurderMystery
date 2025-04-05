@@ -481,34 +481,6 @@ const Dashboard = () => {
         {/* Footer */}
         <footer className="bg-black bg-opacity-50 backdrop-blur-sm p-6 text-center border-t border-red-700 mt-12">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-              <div className="mb-4 md:mb-0">
-                <h3 className="text-2xl font-bold mb-2">
-                  <span className="text-yellow-400">SQL</span>
-                  <span className="text-red-500">Murder</span>
-                  <span className="text-white">Mystery</span>
-                </h3>
-                <p className="text-gray-400">Learn SQL through detective work. Solve crimes with queries.</p>
-              </div>
-              <div className="flex space-x-8 text-sm">
-                <div>
-                  <h4 className="font-semibold mb-2 text-yellow-400">Links</h4>
-                  <ul className="space-y-1">
-                    <li><a href="#" className="hover:text-yellow-400 transition-colors">About</a></li>
-                    <li><a href="#" className="hover:text-yellow-400 transition-colors">SQL Basics</a></li>
-                    <li><a href="#" className="hover:text-yellow-400 transition-colors">Contact</a></li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2 text-yellow-400">Community</h4>
-                  <ul className="space-y-1">
-                    <li><a href="#" className="hover:text-yellow-400 transition-colors">Forums</a></li>
-                    <li><a href="#" className="hover:text-yellow-400 transition-colors">Discord</a></li>
-                    <li><a href="#" className="hover:text-yellow-400 transition-colors">Contribute</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
             <div className="border-t border-gray-700 mt-4 pt-4 text-sm text-gray-500 text-center">
               © 2025 SQL Murder Mystery Game. All detective rights reserved.
             </div>

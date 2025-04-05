@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = 'http://localhost:8080';
 
-const Level1Game = () => {
+const Level3Game = () => {
   const [cases, setCases] = useState([]);
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +37,7 @@ const Level1Game = () => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.get(`${API_BASE_URL}/api/level1/all-cases`, {
+      const response = await axios.get(`${API_BASE_URL}/api/level3/all-cases`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -75,7 +75,7 @@ const Level1Game = () => {
         return;
       }
 
-      const response = await axios.get(`${API_BASE_URL}/api/user/completed-cases`, {
+      const response = await axios.get(`${API_BASE_URL}/api/user/completed-cases-3`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -118,7 +118,7 @@ const Level1Game = () => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.get(`${API_BASE_URL}/api/level1/case/${caseId}`, {
+      const response = await axios.get(`${API_BASE_URL}/api/level3/case/${caseId}`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -181,7 +181,7 @@ const Level1Game = () => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.post(`${API_BASE_URL}/api/execute-query`,
+      const response = await axios.post(`${API_BASE_URL}/api/execute-query-3`,
         { query: userQuery },
         {
           headers: {
@@ -248,7 +248,7 @@ const Level1Game = () => {
 
       console.log('Submitting Answer:', payload);
 
-      const response = await axios.post(`${API_BASE_URL}/api/check-answer`, payload, {
+      const response = await axios.post(`${API_BASE_URL}/api/check-answer-3`, payload, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
@@ -389,7 +389,7 @@ const Level1Game = () => {
       <div className="min-h-screen bg-gray-900 text-gray-200 p-4 sm:p-6">
         <div className="max-w-7xl mx-auto">
           <header className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">SQL Mystery - Level 1</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">SQL Mystery - Level 3</h1>
             <p className="text-purple-400">Find the perpetrators behind these mysterious crimes!</p>
           </header>
 
@@ -705,4 +705,4 @@ const Level1Game = () => {
   );
 };
 
-export default Level1Game;
+export default Level3Game;
