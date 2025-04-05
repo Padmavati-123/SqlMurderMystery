@@ -7,6 +7,7 @@ const topicsRoutes = require("./Routes/TopicsRoutes");
 const questionsRoutes = require("./Routes/QuestionsRoutes");
 const level1Routes = require("./Routes/Level1Routes");
 const leaderboardRoutes = require("./Routes/LeaderboardRoutes");
+const level2Routes = require("./Routes/Level2Routes");
 
 const app = express();
 app.use(cors({
@@ -22,6 +23,7 @@ app.use("/auth", authRoutes);
 app.use("/api", topicsRoutes);
 app.use("/api/questions", questionsRoutes);
 app.use("/api", level1Routes);
+app.use("/api", level2Routes);
 app.use("/api", leaderboardRoutes);
 
 

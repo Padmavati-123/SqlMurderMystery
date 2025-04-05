@@ -14,6 +14,7 @@ import ProfilePage from "./Components/Profile";
 import Dashboard from "./Components/GameDashboard";
 import Level1Game from "./Components/Game/Level1";
 import Leaderboard from "./Components/Game/Leaderboard";
+import Level2Game from "./Components/Game/Level2";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/sql-game" element={<Dashboard />} />
         <Route path="/level1" element={<Level1Game />} />
+        <Route path="/level2" element={<Level2Game />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </div>
