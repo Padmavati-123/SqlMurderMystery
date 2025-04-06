@@ -142,7 +142,7 @@ const Level1Game = () => {
 
       if (err.response?.status === 401) {
         setAuthError('Your session has expired. Please login again.');
-        localStorage.removeItem("token"); 
+        localStorage.removeItem("token");
       } else {
         setError(
           err.response?.data?.message ||
@@ -274,21 +274,21 @@ const Level1Game = () => {
 
           setTimeout(() => {
             fetchCompletedCases(token);
-          }, 1000); 
+          }, 1000);
 
           setTimeout(() => {
             handleBackToList();
           }, 3000);
         }
       }
-      
+
       setLoading(false);
     } catch (err) {
       console.error('Error checking answer:', err);
 
       if (err.response?.status === 401) {
         setAuthError('Your session has expired. Please login again.');
-        localStorage.removeItem("token"); 
+        localStorage.removeItem("token");
       } else {
         setError(err.response?.data?.message || 'Error checking answer');
       }
@@ -315,7 +315,6 @@ const Level1Game = () => {
     navigate('/login', { state: { returnTo: '/game/level1' } });
   };
 
-  // Dark theme spinner component
   const LoadingSpinner = () => (
     <div className="flex justify-center items-center py-8">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
@@ -346,9 +345,6 @@ const Level1Game = () => {
       <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center justify-center p-8">
         <LoadingSpinner />
         <p className="mt-4 text-lg">Loading challenges...</p>
-        <p className="text-sm text-gray-400 mt-2">
-          If this takes too long, check if your backend server is running at {API_BASE_URL}
-        </p>
       </div>
     );
   }
@@ -424,7 +420,7 @@ const Level1Game = () => {
                       </span>
                     )}
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-2 mb-4">
                     <div className="flex items-center text-gray-400">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -440,14 +436,14 @@ const Level1Game = () => {
                       <span className="text-sm">{caseItem.city}</span>
                     </div>
                   </div>
-                  
+
                   <div className="mb-3">
                     <span className="inline-block bg-gray-700 text-purple-300 text-xs px-2 py-1 rounded-full mb-3">
                       {caseItem.type}
                     </span>
                     <p className="text-gray-300 line-clamp-3">{caseItem.description}</p>
                   </div>
-                  
+
                   <div className="pt-2">
                     <button className="text-purple-400 text-sm hover:text-purple-300 flex items-center">
                       <span>View case details</span>
@@ -506,7 +502,7 @@ const Level1Game = () => {
                       <span className="text-gray-400 text-sm">{question.city}</span>
                     </div>
                   </div>
-                  
+
                   {completedCases.includes(Number(question.case_id)) && (
                     <span className="bg-green-900 text-green-300 text-xs font-medium px-3 py-1 rounded-full flex items-center">
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -516,18 +512,39 @@ const Level1Game = () => {
                     </span>
                   )}
                 </div>
-                
+
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-white mb-3">Case File:</h3>
                   <p className="text-gray-300 leading-relaxed">{question.description}</p>
                 </div>
-                
+
                 <div className="bg-gray-900 p-4 rounded-md border-l-4 border-yellow-500">
                   <h3 className="text-lg font-semibold text-yellow-400 mb-3">Your Task:</h3>
                   <p className="text-gray-300">Write a SQL query to find the <span className="text-yellow-400 font-semibold">person_ids</span> involved in this crime.</p>
                 </div>
               </div>
             )}
+
+            <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-6 border-l-4 border-blue-500">
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                Schema Diagram
+              </h3>
+              <div className="bg-gray-900 p-4 rounded-lg overflow-auto">
+                <img
+                  src="/schemaDiagram.jpeg"
+                  alt="Database Schema"
+                  className="w-200 h-100 mx-auto"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/api/placeholder/600/500";
+                  }}
+                />
+              </div>
+            </div>
+
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
@@ -576,7 +593,7 @@ const Level1Game = () => {
                   </button>
                 </div>
               </div>
-              
+
               <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <div className="border-b border-gray-700 px-6 py-4 bg-gray-750">
                   <h3 className="text-lg font-semibold text-white flex items-center">
@@ -632,7 +649,7 @@ const Level1Game = () => {
                       <p>No query results yet. Run a SQL query to see results.</p>
                     </div>
                   )}
-                  
+
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-purple-400 mb-2">
                       Enter Answer (comma-separated person IDs)
@@ -673,12 +690,11 @@ const Level1Game = () => {
                     </button>
 
                     {feedback && (
-                      <div 
-                        className={`mt-4 p-4 rounded-md ${
-                          feedback.correct 
-                            ? 'bg-green-900/50 text-green-300 border border-green-700' 
+                      <div
+                        className={`mt-4 p-4 rounded-md ${feedback.correct
+                            ? 'bg-green-900/50 text-green-300 border border-green-700'
                             : 'bg-yellow-900/50 text-yellow-300 border border-yellow-700'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-start">
                           {feedback.correct ? (

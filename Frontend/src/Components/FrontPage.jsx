@@ -7,7 +7,6 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Navbar */}
       <motion.nav 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

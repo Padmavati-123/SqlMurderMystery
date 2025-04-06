@@ -19,15 +19,7 @@ INSERT INTO topics (name) VALUES
 ('SELECT'), ('FROM'), ('WHERE'), ('ORDER BY'), ('LIMIT / OFFSET'), ('DISTINCT'),
 ('=, !=, <, >, <=, >='), ('BETWEEN'), ('IN'), ('LIKE'), ('IS NULL / IS NOT NULL'),
 ('COUNT()'), ('SUM()'), ('AVG()'), ('MIN() / MAX()'), ('GROUP BY'), ('HAVING'),
-('INNER JOIN'), ('LEFT JOIN'), ('RIGHT JOIN'), ('INSERT INTO'), ('UPDATE'), ('DELETE FROM'),
-('FULL JOIN'), ('SELF JOIN'), ('CROSS JOIN'), ('EXISTS'), ('ANY / ALL'), ('Subqueries (SELECT inside another query)'),
-('WITH (CTEs)'), ('CREATE VIEW'), ('DROP VIEW'), ('CREATE INDEX'), ('DROP INDEX'), ('EXPLAIN / EXPLAIN ANALYZE'),
-('START TRANSACTION'), ('COMMIT'), ('ROLLBACK'), ('SAVEPOINT'), ('LOCK TABLES / UNLOCK TABLES'),
-('CREATE PROCEDURE'), ('CALL'), ('SET TRANSACTION ISOLATION LEVEL'), ('INDEX HINTS'), ('PARTITIONING'),
-('OPTIMIZE TABLE'), ('ANALYZE TABLE'), ('SHOW MASTER STATUS'), ('SHOW SLAVE STATUS'), ('CHANGE MASTER TO'),
-('GRANT'), ('REVOKE'), ('CREATE USER'), ('DROP USER'), ('ALTER USER'),
-('CREATE FUNCTION'), ('RETURN'), ('DECLARE'), ('CURSOR'),
-('BACKUP DATABASE'), ('RESTORE DATABASE'), ('mysqldump'), ('EVENT SCHEDULER');
+('INNER JOIN'), ('LEFT JOIN'), ('RIGHT JOIN'), ('INSERT INTO'), ('UPDATE'), ('DELETE FROM');
 
 INSERT INTO questions (topic_id, question, option1, option2, option3, option4, correct_option) VALUES
 (16, 'What is the purpose of the GROUP BY clause in SQL?', 'To filter the rows returned by a query', 'To sort the result set in ascending or descending order', 'To group rows that have the same values in specified columns into aggregated results', 'To remove duplicate rows from the result set', 3),

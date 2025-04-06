@@ -315,7 +315,6 @@ const Level3Game = () => {
     navigate('/login', { state: { returnTo: '/game/level1' } });
   };
 
-  // Dark theme spinner component
   const LoadingSpinner = () => (
     <div className="flex justify-center items-center py-8">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
@@ -346,9 +345,6 @@ const Level3Game = () => {
       <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center justify-center p-8">
         <LoadingSpinner />
         <p className="mt-4 text-lg">Loading challenges...</p>
-        <p className="text-sm text-gray-400 mt-2">
-          If this takes too long, check if your backend server is running at {API_BASE_URL}
-        </p>
       </div>
     );
   }
@@ -528,6 +524,26 @@ const Level3Game = () => {
                 </div>
               </div>
             )}
+
+<div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-6 border-l-4 border-blue-500">
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                Schema Diagram
+              </h3>
+              <div className="bg-gray-900 p-4 rounded-lg overflow-auto">
+                <img
+                  src="/schemaDiagram.jpeg"
+                  alt="Database Schema"
+                  className="w-200 h-100 mx-auto"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/api/placeholder/600/500";
+                  }}
+                />
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
