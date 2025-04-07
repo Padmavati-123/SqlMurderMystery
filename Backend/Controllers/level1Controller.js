@@ -197,6 +197,36 @@ const level1Question = (req, res) => {
     }
 };
 
+// const executeQuery = (req, res) => {
+//     try {
+//         const { query } = req.body;
+//         const userId = getUserIdFromToken(req);
+        
+//         if (!userId) {
+//             return res.status(401).json({ success: false, message: 'Unauthorized. Please log in.' });
+//         }
+
+//         const forbiddenKeywords = ['DROP', 'DELETE', 'UPDATE', 'INSERT', 'ALTER', 'CREATE', 'TRUNCATE'];
+//         const containsForbiddenKeyword = forbiddenKeywords.some(keyword => query.toUpperCase().includes(keyword));
+
+//         if (containsForbiddenKeyword) {
+//             return res.status(403).json({ success: false, message: 'Query contains forbidden keywords' });
+//         }
+
+//         pool.query(query, (error, results) => {
+//             if (error) {
+//                 console.error('Error executing query:', error);
+//                 return res.status(400).json({ success: false, message: 'Invalid SQL query: ' + error.message });
+//             }
+
+//             return res.status(200).json({ success: true, results });
+//         });
+//     } catch (error) {
+//         console.error('Error executing query:', error);
+//         return res.status(500).json({ success: false, message: 'Server error' });
+//     }
+// };
+
 const executeQuery = (req, res) => {
     try {
         const { query } = req.body;
@@ -205,20 +235,30 @@ const executeQuery = (req, res) => {
         if (!userId) {
             return res.status(401).json({ success: false, message: 'Unauthorized. Please log in.' });
         }
-
+        
         const forbiddenKeywords = ['DROP', 'DELETE', 'UPDATE', 'INSERT', 'ALTER', 'CREATE', 'TRUNCATE'];
         const containsForbiddenKeyword = forbiddenKeywords.some(keyword => query.toUpperCase().includes(keyword));
-
+        
         if (containsForbiddenKeyword) {
             return res.status(403).json({ success: false, message: 'Query contains forbidden keywords' });
         }
 
+        const forbiddenTables = ['users', 'user_progress', 'leaderboard', 'check_table','check_table2','check_table3', 'topics', 'questions'];
+        
+        const tableRegex = new RegExp(`\\b(${forbiddenTables.join('|')})\\b`, 'i');
+        if (tableRegex.test(query)) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'Access to this table is restricted' 
+            });
+        }
+        
         pool.query(query, (error, results) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return res.status(400).json({ success: false, message: 'Invalid SQL query: ' + error.message });
             }
-
+            
             return res.status(200).json({ success: true, results });
         });
     } catch (error) {
