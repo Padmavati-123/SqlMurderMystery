@@ -5,7 +5,7 @@ import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import TopicsPage from "./Components/Topics";
 import QuizPage from "./Components/Questions";
-import GroupByExplanation from "./GroupBy";
+//import GroupByExplanation from "./GroupBy";
 import DescriptionPage from "./Components/Description";
 import FAQsPage from "./Components/Faqs";
 import AboutPage from "./Components/About";
@@ -27,7 +27,7 @@ function App() {
         <Route path="/home" element={< Home />} />
         <Route path="/topics" element={< TopicsPage />} />
         <Route path="/quiz/:topicId" element={<QuizPage />} />
-        <Route path="/groupby" element={<GroupByExplanation />} />
+        {/* <Route path="/groupby" element={<GroupByExplanation />} /> */}
         <Route path="/description/:topicId" element={<DescriptionPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
         <Route path="/about" element={<AboutPage />} />

@@ -1,6 +1,7 @@
 const pool = require("../Config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendWelcomeEmail } = require("../src/utils/emailService");
 
 const registerUser = (req, res) => {
   const { name, email, password } = req.body;
@@ -17,10 +18,18 @@ const registerUser = (req, res) => {
     (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
 
-      res.status(201).json({ message: "User registered successfully" });
+      sendWelcomeEmail(name, email)
+        .then(() => {
+          res.status(201).json({ message: "User registered successfully" });
+        })
+        .catch((emailErr) => {
+          console.error("Email failed to send:", emailErr);
+          res.status(201).json({ message: "User registered, but email failed" });
+        });
     }
   );
 };
+
 
 const loginUser = (req, res) => {
   const { email, password } = req.body;
