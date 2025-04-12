@@ -130,7 +130,20 @@ const Dashboard = () => {
     navigate("/login");
   };
   
-  const renderHomePage = () => (
+ // For the home page leaderboard (Top 3 detectives + User stats if not in top 3)
+// For the home page leaderboard (Top 3 detectives + User stats if not in top 3)
+const renderHomePage = () => {
+  // Find user in leaderboard data or calculate their position
+  const userInLeaderboard = leaderboardData.find(player => player.name === user.name);
+  
+  // Calculate user's rank and stats
+  const userRank = userInLeaderboard ? userInLeaderboard.rank : leaderboardData.length + 1;
+  const userScore = userInLeaderboard ? userInLeaderboard.total_score : (userStats ? userStats.total_score : 0);
+  
+  // Check if user is in top 3
+  const isUserInTop3 = leaderboardData.slice(0, 3).some(player => player.name === user.name);
+
+  return (
     <div className="flex flex-col gap-8">
       <div className="bg-gradient-to-r from-red-900 to-purple-900 rounded-xl p-8 shadow-lg text-white">
         <h2 className="text-3xl font-bold mb-4">Welcome Detective</h2>
@@ -151,18 +164,34 @@ const Dashboard = () => {
           <p className="text-gray-300 mb-4">Top 3 SQL detectives this week</p>
           <ul className="space-y-2">
             {leaderboardData.slice(0, 3).map((player) => (
-              <li key={player.rank} className="flex justify-between items-center border-b border-gray-700 pb-2">
+              <li key={player.rank} className={`flex justify-between items-center border-b border-gray-700 pb-2 ${player.name === user.name ? 'bg-yellow-600 bg-opacity-50 px-2 rounded' : ''}`}>
                 <span className="flex items-center">
                   <span className={`w-6 h-6 rounded-full flex items-center justify-center mr-2 text-xs ${
-                    player.rank === 1 ? 'bg-yellow-400' : 
-                    player.rank === 2 ? 'bg-gray-300' : 'bg-amber-600'
-                  } text-white font-bold`}>{player.rank}</span>
-                  {player.name}
+                    player.rank === 1 ? 'bg-yellow-400 text-black' : 
+                    player.rank === 2 ? 'bg-gray-300 text-black' : 'bg-amber-600 text-white'
+                  } font-bold`}>{player.rank}</span>
+                  {player.name} {player.name === user.name ? '(You)' : ''}
                 </span>
                 <span className="font-semibold text-white">{player.total_score}</span>
               </li>
             ))}
           </ul>
+          
+          {/* Show user stats if not in top 3 */}
+          {!isUserInTop3 && (
+            <div className="mt-3 border-t border-gray-700 pt-3">
+              <div className="flex justify-between items-center bg-yellow-600 bg-opacity-50 p-2 rounded">
+                <span className="flex items-center">
+                  <span className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center mr-2 text-xs text-black font-bold">
+                    {userRank}
+                  </span>
+                  <span className="text-white font-medium">{user.name} (You)</span>
+                </span>
+                <span className="font-semibold text-white">{userScore}</span>
+              </div>
+            </div>
+          )}
+          
           <button 
             className="text-sm text-yellow-400 mt-3 hover:text-yellow-300"
             onClick={() => setActivePage('leaderboard')}
@@ -192,44 +221,96 @@ const Dashboard = () => {
       </div>
     </div>
   );
+};
+
+// For the global leaderboard page (User stats first, then full leaderboard)
+const renderLeaderboard = () => {
+  // Find user's position in the leaderboard or create a user entry if not present
+  const userInLeaderboard = leaderboardData.find(player => player.name === user.name);
   
-  const renderLeaderboard = () => (
-    <div className="bg-black bg-opacity-70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-red-700">
-      <h2 className="text-2xl font-bold text-yellow-400 mb-6 flex items-center">
-        <Trophy size={24} className="text-yellow-500 mr-2" /> Global Leaderboard
-      </h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-transparent">
-          <thead>
-            <tr className="bg-red-900 bg-opacity-50 text-yellow-400">
-              <th className="py-3 px-4 text-left">Rank</th>
-              <th className="py-3 px-4 text-left">Detective</th>
-              <th className="py-3 px-4 text-left">Score</th>
-              <th className="py-3 px-4 text-left">Current Streak</th>
-              <th className="py-3 px-4 text-left">Highest Streak</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-800">
-            {leaderboardData.map((player) => (
-              <tr key={player.rank} className="hover:bg-gray-800 hover:bg-opacity-50 text-white">
-                <td className="py-3 px-4">
-                  <span className={`w-6 h-6 rounded-full inline-flex items-center justify-center mr-1 text-xs ${
-                    player.rank === 1 ? 'bg-yellow-400 text-black' : 
-                    player.rank === 2 ? 'bg-gray-300 text-black' : 
-                    player.rank === 3 ? 'bg-amber-600 text-white' : 'bg-gray-700 text-white'
-                  } font-bold`}>{player.rank}</span>
-                </td>
-                <td className="py-3 px-4 font-medium">{player.name}</td>
-                <td className="py-3 px-4">{player.total_score}</td>
-                <td className="py-3 px-4">{player.current_streak}</td>
-                <td className="py-3 px-4">{player.highest_streak}</td>
+  // Get user's stats - properly calculate them even if not in leaderboard
+  const userRank = userInLeaderboard ? userInLeaderboard.rank : leaderboardData.length + 1;
+  const userScore = userInLeaderboard ? userInLeaderboard.total_score : (userStats ? userStats.total_score : 0);
+  const userCurrentStreak = userInLeaderboard ? userInLeaderboard.current_streak : (userStats ? userStats.current_streak : 0);
+  const userHighestStreak = userInLeaderboard ? userInLeaderboard.highest_streak : (userStats ? userStats.highest_streak : 0);
+  
+  return (
+    <div className="space-y-6">
+      {/* User Stats Section - Always shown first */}
+      <div className="bg-black bg-opacity-70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-yellow-600">
+        <h3 className="text-xl font-bold text-yellow-400 mb-4">Your Stats</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-transparent">
+            <thead>
+              <tr className="bg-red-900 bg-opacity-50 text-yellow-400">
+                <th className="py-3 px-4 text-left">Rank</th>
+                <th className="py-3 px-4 text-left">Detective</th>
+                <th className="py-3 px-4 text-left">Score</th>
+                <th className="py-3 px-4 text-left">Current Streak</th>
+                <th className="py-3 px-4 text-left">Highest Streak</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <tr className="bg-yellow-600 text-black font-medium">
+                <td className="py-3 px-4">
+                  <span className="w-6 h-6 bg-yellow-400 text-black rounded-full inline-flex items-center justify-center font-bold">{userRank}</span>
+                </td>
+                <td className="py-3 px-4">{user.name}</td>
+                <td className="py-3 px-4">{userScore}</td>
+                <td className="py-3 px-4">{userCurrentStreak}</td>
+                <td className="py-3 px-4">{userHighestStreak}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      {/* Global Leaderboard Section */}
+      <div className="bg-black bg-opacity-70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-red-700">
+        <h2 className="text-2xl font-bold text-yellow-400 mb-6 flex items-center">
+          <Trophy size={24} className="text-yellow-500 mr-2" /> Global Leaderboard
+        </h2>
+        
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-transparent">
+            <thead>
+              <tr className="bg-red-900 bg-opacity-50 text-yellow-400">
+                <th className="py-3 px-4 text-left">Rank</th>
+                <th className="py-3 px-4 text-left">Detective</th>
+                <th className="py-3 px-4 text-left">Score</th>
+                <th className="py-3 px-4 text-left">Current Streak</th>
+                <th className="py-3 px-4 text-left">Highest Streak</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800">
+              {/* Full leaderboard with user highlighted */}
+              {leaderboardData.map((player) => (
+                <tr
+                  key={player.rank}
+                  className={`hover:bg-gray-800 hover:bg-opacity-50 ${player.name === user.name ? 'bg-yellow-600 text-black' : 'text-white'}`}
+                >
+                  <td className="py-3 px-4">
+                    <span className={`w-6 h-6 rounded-full inline-flex items-center justify-center mr-1 text-xs ${
+                      player.rank === 1 ? 'bg-yellow-400 text-black' : 
+                      player.rank === 2 ? 'bg-gray-300 text-black' : 
+                      player.rank === 3 ? 'bg-amber-600 text-white' : 
+                      'bg-gray-700 text-white'
+                    } font-bold`}>{player.rank}</span>
+                  </td>
+                  <td className="py-3 px-4 font-medium">{player.name} {player.name === user.name ? '(You)' : ''}</td>
+                  <td className="py-3 px-4">{player.total_score}</td>
+                  <td className="py-3 px-4">{player.current_streak}</td>
+                  <td className="py-3 px-4">{player.highest_streak}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
+};
+  
   
   const renderLevels = () => (
     <div className="space-y-6">

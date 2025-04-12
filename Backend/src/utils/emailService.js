@@ -1,18 +1,30 @@
 const nodemailer = require("nodemailer");
 
-
+// Replace hardcoded credentials with environment variables
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: "padmavatikudal2025@gmail.com",
-      pass: "jfuh sbtf cusc pmey",
-    }
-  });
+  service: 'gmail',
+  auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+  }
+});
+// Add this test right after creating your transporter
+transporter.verify((error) => {
+  if (error) {
+    console.error('SMTP Connection Error:', {
+      error: error.message,
+      code: error.code,
+      response: error.response
+    });
+  } else {
+    console.log('SMTP Server is ready to send emails');
+  }
+});
 
 const sendWelcomeEmail = async (name, email) => {
   try {
     await transporter.sendMail({
-      from: '"Crime Scene Investigation" <noreply@crimescene.com>',
+      from: `"Crime Scene Investigation" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Welcome to Crime Scene Investigation",
       html: `
@@ -48,7 +60,7 @@ const sendWelcomeEmail = async (name, email) => {
 const sendInactivityEmail = async (name, email, daysSinceLogin) => {
   try {
     await transporter.sendMail({
-      from: '"Crime Scene Investigation" <noreply@crimescene.com>',
+      from: `"Crime Scene Investigation" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "We miss you at Crime Scene Investigation",
       html: `
@@ -81,7 +93,53 @@ const sendInactivityEmail = async (name, email, daysSinceLogin) => {
   }
 };
 
+
+const sendPasswordResetEmail = async (name, email, resetUrl) => {
+  try {
+    const mailOptions = {
+      from: `"Crime Scene Investigation" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Reset Your Password",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="color: #c41e3a; margin: 0;">Crime Scene Investigation</h2>
+            <p style="color: #555; margin-top: 5px;">Password Reset Request</p>
+          </div>
+          
+          <div style="padding: 20px; background-color: #f8f8f8; border-radius: 5px;">
+            <p>Hello, ${name}!</p>
+            <p>We received a request to reset your password. If you didn't make this request, you can safely ignore this email.</p>
+            <p>To reset your password, click the button below:</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${resetUrl}" style="background-color: #c41e3a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">Reset Password</a>
+            </div>
+            
+            <p>This link will expire in 1 hour for security reasons.</p>
+            <p>If you're having trouble clicking the button, copy and paste the URL below into your web browser:</p>
+            <p style="word-break: break-all; font-size: 14px; color: #777;">${resetUrl}</p>
+          </div>
+          
+          <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center; font-size: 12px; color: #777;">
+            <p>&copy; ${new Date().getFullYear()} Crime Scene Investigation. All rights reserved.</p>
+            <p>This is an automated email. Please do not reply.</p>
+          </div>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Password reset email sent to:", email);
+    return true;
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   sendWelcomeEmail,
   sendInactivityEmail,
+  sendPasswordResetEmail
 };

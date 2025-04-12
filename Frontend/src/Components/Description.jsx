@@ -788,9 +788,9 @@ const DescriptionPage = () => {
                         style={{ animation: "pulseButton 2s infinite" }}
                     >
                         🕵️‍♂️ Take Test
-                        <span className="absolute -top-3 -right-3 text-xs bg-white text-red-700 px-2 py-1 rounded-md border border-gray-600 shadow-md transform hover:rotate-6 transition-transform duration-300">
+                        {/* <span className="absolute -top-3 -right-3 text-xs bg-white text-red-700 px-2 py-1 rounded-md border border-gray-600 shadow-md transform hover:rotate-6 transition-transform duration-300">
                             Case ID: {topicId}
-                        </span>
+                        </span> */}
                     </button>
                 </div>
             </div>
