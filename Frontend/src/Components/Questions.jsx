@@ -14,8 +14,11 @@ const QuizPage = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);  
+  const [timer, setTimer] = useState(0); // Timer state
+  const [isTimerRunning, setIsTimerRunning] = useState(false); // Timer running state
+  const [showTimerButton, setShowTimerButton] = useState(true); // Show button to start timer
   const [popupContent, setPopupContent] = useState({ title: "", message: "", color: "" });
-  const [isSubmitted, setIsSubmitted] = useState(false);  // Track whether the quiz has been submitted
 
   useEffect(() => {
     axios
@@ -56,8 +59,21 @@ const QuizPage = () => {
     fetchUserData();
   }, [navigate]);
 
+  useEffect(() => {
+    let timerInterval;
+
+    if (isTimerRunning) {
+      timerInterval = setInterval(() => {
+        setTimer(prevTime => prevTime + 1);
+      }, 1000); // Update timer every second
+    }
+
+    return () => clearInterval(timerInterval); // Clean up on unmount
+  }, [isTimerRunning]);
+
   const handleSubmit = () => {
-    setIsSubmitted(true);  // Mark quiz as submitted
+    setIsSubmitted(true);
+    setIsTimerRunning(false); // Stop the timer on submit
     axios.post("http://localhost:8080/api/questions/submit", { answers }).then((res) => {
       setResult(res.data);
       const total = res.data.correct.length + res.data.wrong.length;
@@ -93,18 +109,18 @@ const QuizPage = () => {
     navigate("/login");
   };
 
-  // Handle clicking outside the dropdown to close it
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (showDropdown && !event.target.closest('.dropdown-container')) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showDropdown]);
+  const toggleTimer = () => {
+    setIsTimerRunning(prev => !prev);
+    if (!isTimerRunning) {
+      setShowTimerButton(false); // Hide the button after starting the timer
+    }
+  };
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -168,6 +184,26 @@ const QuizPage = () => {
       <div className="max-w-3xl mx-auto p-6">
         <button onClick={() => navigate(-1)} className="mb-6 px-4 py-2 bg-gray-700 rounded-md hover:bg-gray-600">🔙 Back</button>
 
+        {/* Timer Button */}
+        {!isSubmitted && showTimerButton && (
+          <button onClick={toggleTimer} className="mb-6 px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-500">
+            {isTimerRunning ? "Stop Timer" : "Start Timer"}
+          </button>
+        )}
+
+        {/* Timer Display */}
+        {isTimerRunning && !isSubmitted && (
+          <div className="text-lg font-semibold text-yellow-400 mb-6">
+            Time: {formatTime(timer)}
+          </div>
+        )}
+
+        {isSubmitted && (
+          <div className="text-lg font-semibold text-green-400 mb-6">
+            Total Time: {formatTime(timer)}
+          </div>
+        )}
+
         {questions.map((q) => (
           <div key={q.id} className="mb-6 p-4 bg-gray-800 rounded-lg shadow-lg border border-yellow-500">
             <p className="font-semibold text-lg text-yellow-400">{q.question}</p>
@@ -179,7 +215,7 @@ const QuizPage = () => {
                   value={num}
                   onChange={() => setAnswers({ ...answers, [q.id]: num })}
                   checked={answers[q.id] === num}
-                  disabled={isSubmitted} // Disable input after submission
+                  disabled={isSubmitted}
                   className="mr-2"
                 />
                 <span className="text-gray-300">{q[`option${num}`]}</span>
