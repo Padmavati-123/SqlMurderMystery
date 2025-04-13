@@ -59,6 +59,9 @@ const Home = () => {
         };
     }, [showDropdown]);
 
+
+    
+
     return (
         <div className="min-h-screen text-white relative" style={{
             backgroundImage: "url('/home_background.jpg')",
