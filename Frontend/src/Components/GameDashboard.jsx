@@ -613,14 +613,7 @@ const Dashboard = () => {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 hover-line"></span>
             </button>
             
-            <button
-              onClick={() => navigate("/faqs")}
-              className="nav-link relative overflow-hidden hover:text-yellow-400 transition duration-300 font-semibold flex items-center gap-2"
-            >
-              <FaQuestionCircle className="text-red-400" />
-              <span>FAQs</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 hover-line"></span>
-            </button>
+  
             
             {/* User account dropdown */}
             <div className="relative dropdown-container">

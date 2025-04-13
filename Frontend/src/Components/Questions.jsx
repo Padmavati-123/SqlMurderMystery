@@ -79,13 +79,13 @@ const QuizPage = () => {
       const total = res.data.correct.length + res.data.wrong.length;
       const correctCount = res.data.correct.length;
 
-      if (correctCount === total) {
+      if (correctCount === 5) {
         setPopupContent({
           title: "🎉 Perfect Score!",
           message: "You're a true detective! 🕵️‍♂️",
           color: "green",
         });
-      } else if (correctCount / total < 0.5) {
+      } else if (correctCount / 5 < 0.5) {
         setPopupContent({
           title: "😢 Tough Case!",
           message: "Don't worry, detectives learn from mistakes.",
