@@ -226,6 +226,54 @@ const level1Question = (req, res) => {
 //         return res.status(500).json({ success: false, message: 'Server error' });
 //     }
 // };
+// Add this to level1Controller.js
+const getUserProgress = (req, res) => {
+    const userId = getUserIdFromToken(req);
+  
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Unauthorized. Please log in.' });
+    }
+  
+    const query = `
+      SELECT level_id, COUNT(*) as totalCases,
+        SUM(CASE WHEN completed = TRUE THEN 1 ELSE 0 END) as completedCases
+      FROM user_progress
+      WHERE user_id = ?
+      GROUP BY level_id
+    `;
+  
+    pool.query(query, [userId], (err, results) => {
+      if (err) {
+        console.error('Error fetching progress:', err);
+        return res.status(500).json({ success: false, message: 'Server error' });
+      }
+  
+      // Initialize progress structure with explicit number types
+      const progress = {
+        level1: { completedCases: 0, totalCases: 32 },
+        level2: { completedCases: 0, totalCases: 32 },
+        level3: { completedCases: 0, totalCases: 12 },
+        totalCompletedCases: 0,
+        totalCases: 76, // Sum of all level totals (32 + 32 + 12)
+        percentage: 0,
+      };
+  
+      results.forEach(row => {
+        const levelKey = `level${row.level_id}`;
+        if (progress[levelKey]) {
+          // Ensure numeric values with explicit conversion
+          progress[levelKey].completedCases = Number(row.completedCases);
+          progress[levelKey].totalCases = Number(row.totalCases);
+          progress.totalCompletedCases += Number(row.completedCases);
+        }
+      });
+  
+      // Calculate percentage with proper numeric values
+      progress.percentage = Math.round((progress.totalCompletedCases / progress.totalCases) * 100);
+  
+      res.status(200).json({ success: true, progress });
+    });
+  };
 
 const executeQuery = (req, res) => {
     try {
@@ -543,5 +591,6 @@ module.exports = {
     level1Question,
     executeQuery,
     checkAnswer,
-    updateUserScoreAndStreak
+    updateUserScoreAndStreak,
+    getUserProgress,
 };
