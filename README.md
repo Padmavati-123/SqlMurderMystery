@@ -12,7 +12,7 @@ Follow the steps below to set up the project locally.
 ### Cloning the Repository
 
 ```bash
-1.git clone git@github.com:Padmavati-123/Sql_Murder_Mystery.git <br>
+1.git clone git@github.com:Padmavati-123/Sql_Murder_Mystery.git 
   cd Sql_Murder_Mystery 
 2.cd Backend 
 3.npm install
