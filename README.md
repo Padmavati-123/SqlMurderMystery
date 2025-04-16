@@ -13,13 +13,13 @@ Follow the steps below to set up the project locally.
 
 ```bash
 1.git clone git@github.com:Padmavati-123/Sql_Murder_Mystery.git <br>
-  cd Sql_Murder_Mystery <br>
-2.cd Backend <br>
-3.npm install <br>
-4.nodemon index.js <br>
-5.cd ../Frontend <br>
-6.npm install <br>
-7.npm run dev <br>
+  cd Sql_Murder_Mystery 
+2.cd Backend 
+3.npm install
+4.nodemon index.js
+5.cd ../Frontend
+6.npm install
+7.npm run dev
 
 ## LINK OF DEPLOYED WEBSITE :
 https://sql-murder-mystery.vercel.app/
