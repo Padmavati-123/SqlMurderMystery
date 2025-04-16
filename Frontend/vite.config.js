@@ -7,7 +7,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/',
+        changeOrigin: true,
+      },
+      '/api/questions': {
+        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/',
+        changeOrigin: true,
+      },
+      '/auth': {
+        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/',
         changeOrigin: true,
       },
     },
