@@ -7,17 +7,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/',
+        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net',
         changeOrigin: true,
-      },
-      '/api/questions': {
-        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/',
-        changeOrigin: true,
+        secure: false
       },
       '/auth': {
-        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/',
+        target: 'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net',
         changeOrigin: true,
-      },
-    },
-  },
+        secure: false
+      }
+    }
+  }
 })
