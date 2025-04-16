@@ -14,7 +14,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://sql-murder-mystery.vercel.app/auth/login", {
+      const response = await fetch("https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

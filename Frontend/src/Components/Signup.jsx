@@ -23,7 +23,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await fetch("https://sql-murder-mystery.vercel.app/auth/register", {
+      const response = await fetch("https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

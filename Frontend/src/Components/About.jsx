@@ -20,7 +20,7 @@ const AboutPage = () => {
                 return;
             }
             try {
-                const response = await fetch("https://sql-murder-mystery.vercel.app/auth/user", {
+                const response = await fetch("https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/auth/user", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
