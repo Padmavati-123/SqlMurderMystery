@@ -28,6 +28,13 @@ app.use("/api", level2Routes);
 app.use("/api", level3Routes);
 app.use("/api", leaderboardRoutes);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("Frontend/dist")); 
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html")); 
+  });
+}
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
