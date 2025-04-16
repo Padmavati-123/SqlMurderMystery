@@ -13,7 +13,15 @@ const Leaderboard = () => {
   const fetchLeaderboard = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/api/leaderboard');
+      const response = await axios.get(
+        'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/api/leaderboard',
+        {
+          headers: {
+            'Accept': 'application/json',
+            // Add any other required headers here
+          }
+        }
+      );
       setLeaderboard(response.data.leaderboard);
       setLoading(false);
     } catch (err) {
