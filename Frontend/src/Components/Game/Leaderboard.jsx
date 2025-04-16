@@ -24,10 +24,7 @@ const Leaderboard = () => {
           }
         }
       );
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new TypeError("Oops, we didn't get JSON!");
-      }
-      return response.json();
+      
       
       setLeaderboard(response.data.leaderboard);
       setLoading(false);
