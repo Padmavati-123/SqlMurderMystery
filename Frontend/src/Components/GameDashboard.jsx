@@ -68,6 +68,7 @@ const Dashboard = () => {
           // Fetch user progress data for all levels
           const progressResponse = await fetch('/api/user/progress', {
             headers: {
+              'Accept': 'application/json',
               'Authorization': `Bearer ${token}`
             }
           });
@@ -125,6 +126,7 @@ const Dashboard = () => {
           // Fetch user stats
           const statsResponse = await fetch('/api/user/stats', {
             headers: {
+              'Accept': 'application/json',
               'Authorization': `Bearer ${token}`
             }
           });
