@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path"); // Make sure path is imported!
 const bodyParser = require("body-parser");
 const authRoutes = require("./Routes/AuthRoutes");
 const topicsRoutes = require("./Routes/TopicsRoutes");
@@ -34,9 +35,14 @@ app.use("/api", level3Routes);
 app.use("/api", leaderboardRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("Frontend/dist")); 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html")); 
+  app.use(express.static(path.join(__dirname, "Frontend", "dist")));
+
+  // Serve frontend only for routes not starting with /api or /auth
+  app.get("*", (req, res, next) => {
+    if (req.originalUrl.startsWith("/api") || req.originalUrl.startsWith("/auth")) {
+      return next(); // Skip to actual API route
+    }
+    res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html"));
   });
 }
 
