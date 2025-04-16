@@ -25,12 +25,12 @@ Follow the steps below to set up the project locally.
 https://sql-murder-mystery.vercel.app/
 
 ## Features 
-1.Interactive ,gamified mySQL learning <br>
-2.Well structured Learning phase with quizzes specific to each topic. <br>
-3.Around 75 intersting crime mysteries waiting to be solved using mySQL. <br>
+1.Interactive ,gamified mySQL learning
+2.Well structured Learning phase with quizzes specific to each topic.
+3.Around 75 intersting crime mysteries waiting to be solved using mySQL.
 
 # CONTRIBUTORS
-1.Padmavati M Kudal<br>
-2.Jovita Paul<br>
-3.Basitha Sadipirala<br>
-4.Lahari Naik<br>
+1.Padmavati M Kudal
+2.Jovita Paul
+3.Basitha Sadipirala
+4.Lahari Naik
