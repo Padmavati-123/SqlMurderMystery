@@ -11,6 +11,7 @@ const Leaderboard = () => {
   }, []);
 
   const fetchLeaderboard = async () => {
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
     try {
       setLoading(true);
       const response = await axios.get(
