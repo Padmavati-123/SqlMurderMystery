@@ -21,6 +21,7 @@ import Level1Game from "./Components/Game/Level1";
 import Leaderboard from "./Components/Game/Leaderboard";
 import Level2Game from "./Components/Game/Level2";
 import Level3Game from "./Components/Game/Level3";
+import ResetPassword from "./Components/ResetPassword";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/topics" element={< TopicsPage />} />
         <Route path="/quiz/:topicId" element={<QuizPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         {/* <Route path="/groupby" element={<GroupByExplanation />} /> */}
         <Route path="/description/:topicId" element={<DescriptionPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
