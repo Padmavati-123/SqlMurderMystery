@@ -51,7 +51,13 @@ const Dashboard = () => {
           }
         }
 
-        const leaderboardResponse = await fetch('/api/leaderboard');
+        const leaderboardResponse = await fetch('sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/api/leaderboard', {
+          method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+        });
         if (!leaderboardResponse.ok) {
           throw new Error('Failed to fetch leaderboard data');
         }
@@ -66,9 +72,10 @@ const Dashboard = () => {
 
         if (token) {
           // Fetch user progress data for all levels
-          const progressResponse = await fetch('/api/user/progress', {
+          const progressResponse = await fetch('sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/api/user/progress', {
+            method: "GET",
             headers: {
-              'Accept': 'application/json',
+              "Content-Type": "application/json",
               'Authorization': `Bearer ${token}`
             }
           });
@@ -124,9 +131,10 @@ const Dashboard = () => {
   }
 
           // Fetch user stats
-          const statsResponse = await fetch('/api/user/stats', {
+          const statsResponse = await fetch('sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/api/user/stats', {
+            method: "GET",
             headers: {
-              'Accept': 'application/json',
+              "Content-Type": "application/json",
               'Authorization': `Bearer ${token}`
             }
           });
