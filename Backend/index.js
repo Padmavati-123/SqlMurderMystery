@@ -17,7 +17,7 @@ app.use(cors({
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  exposedHeaders: ["Access-Control-Allow-Origin"]
+  // exposedHeaders: ["Access-Control-Allow-Origin"]
 }));
 
 
