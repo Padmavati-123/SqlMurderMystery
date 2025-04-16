@@ -39,7 +39,7 @@ const Dashboard = () => {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
               },
             });
             const userData = await userResponse.json();
@@ -55,7 +55,7 @@ const Dashboard = () => {
           method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
               },
         });
         if (!leaderboardResponse.ok) {
