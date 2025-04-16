@@ -18,8 +18,8 @@ const Leaderboard = () => {
         'https://sql-backend-hggtg3ccd8h8fpfv.southindia-01.azurewebsites.net/api/leaderboard',
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": 'application/json'
             // Add any other required headers here
           }
         }
