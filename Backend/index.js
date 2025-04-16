@@ -12,9 +12,10 @@ const level3Routes = require("./Routes/Level3Routes");
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'https://sql-murder-mystery.vercel.app/'],
   credentials: true 
 }));
+
 
 app.use(express.json());
 

@@ -21,7 +21,7 @@ const Home = () => {
                 return;
             }
             try {
-                const response = await fetch("http://localhost:8080/auth/user", {
+                const response = await fetch("https://sql-murder-mystery.vercel.app/auth/user", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

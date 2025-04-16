@@ -22,7 +22,7 @@ const QuizPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/questions/${topicId}`)
+      .get(`https://sql-murder-mystery.vercel.app/api/questions/${topicId}`)
       .then((res) => {
         setQuestions(res.data);
       })
@@ -38,7 +38,7 @@ const QuizPage = () => {
         return;
       }
       try {
-        const response = await fetch("http://localhost:8080/auth/user", {
+        const response = await fetch("https://sql-murder-mystery.vercel.app/auth/user", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -74,7 +74,7 @@ const QuizPage = () => {
   const handleSubmit = () => {
     setIsSubmitted(true);
     setIsTimerRunning(false); // Stop the timer on submit
-    axios.post("http://localhost:8080/api/questions/submit", { answers }).then((res) => {
+    axios.post("https://sql-murder-mystery.vercel.app/api/questions/submit", { answers }).then((res) => {
       setResult(res.data);
       const total = res.data.correct.length + res.data.wrong.length;
       const correctCount = res.data.correct.length;

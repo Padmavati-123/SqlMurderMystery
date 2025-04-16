@@ -35,7 +35,7 @@ const Dashboard = () => {
         const token = localStorage.getItem("token");
         if (token) {
           try {
-            const userResponse = await fetch("http://localhost:8080/auth/user", {
+            const userResponse = await fetch("https://sql-murder-mystery.vercel.app/auth/user", {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
