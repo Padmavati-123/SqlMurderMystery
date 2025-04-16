@@ -158,7 +158,7 @@ const FAQsPage = () => {
 
                                     <button
                                         className="w-full text-left py-2 px-3 rounded-md hover:bg-red-700 hover:bg-opacity-30 transition flex items-center"
-                                        onClick={() => navigate("/history")}
+                                        onClick={() => navigate("/game-dashboard")}
                                     >
                                         <span>Case History</span>
                                         <FaArrowRight className="ml-auto text-xs opacity-50" />
