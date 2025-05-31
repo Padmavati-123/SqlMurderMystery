@@ -13,7 +13,7 @@ const level3Routes = require("./Routes/Level3Routes");
 
 const app = express();
 app.use(cors({
-  origin: 'https://sql-murder-mystery.vercel.app',
+  origin: ['https://sql-murder-mystery.vercel.app', 'https://sql-murder-mystery-cfi1.vercel.app'],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
